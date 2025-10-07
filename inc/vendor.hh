@@ -25,8 +25,10 @@ enum vendors {
     VORTEX,  /* 14 */
 };
 
-vendors                    guess_vendor();
 std::optional<std::string> signature();
+std::optional<std::string> branding();
+
+vendors guess_vendor();
 
 }  // namespace vendor
 }  // namespace xdt

@@ -71,6 +71,13 @@ get_vendor_signature_() {
     return std::make_tuple(registers->ebx, registers->edx, registers->ecx);
 };
 
+static void append_cpuid_string_(std::string& to, const std::uint32_t source) {
+    to.push_back(static_cast<char>(source & 0xFF));
+    to.push_back(static_cast<char>((source >> 8) & 0xFF));
+    to.push_back(static_cast<char>((source >> 16) & 0xFF));
+    to.push_back(static_cast<char>((source >> 24) & 0xFF));
+}
+
 std::optional<std::string> xdt::vendor::signature() {
     const auto registers = xdt::cpuid::cpuid(0x0, 0x0);
     if (!registers) {
@@ -80,17 +87,31 @@ std::optional<std::string> xdt::vendor::signature() {
     std::string signature;
     signature.reserve(12);
 
-    auto append__ = [&signature](const std::uint32_t register_value) {
-        signature.push_back(static_cast<char>(register_value & 0xFF));
-        signature.push_back(static_cast<char>((register_value >> 8) & 0xFF));
-        signature.push_back(static_cast<char>((register_value >> 16) & 0xFF));
-        signature.push_back(static_cast<char>((register_value >> 24) & 0xFF));
-    };
-    append__(registers->ebx);
-    append__(registers->edx);
-    append__(registers->ecx);
+    append_cpuid_string_(signature, registers->ebx);
+    append_cpuid_string_(signature, registers->edx);
+    append_cpuid_string_(signature, registers->ecx);
 
     return signature;
+}
+
+std::optional<std::string> xdt::vendor::branding() {
+    std::string branding;
+    branding.reserve(32);
+
+    for (std::uint32_t leaf{0x80000002}; leaf < 0x80000005; ++leaf) {
+        const auto registers = xdt::cpuid::cpuid(leaf, 0x0);
+        if (!registers) {
+            // ?
+            return std::nullopt;
+        }
+
+        append_cpuid_string_(branding, registers->eax);
+        append_cpuid_string_(branding, registers->ebx);
+        append_cpuid_string_(branding, registers->ecx);
+        append_cpuid_string_(branding, registers->edx);
+    }
+
+    return branding;
 }
 
 #define EBX 0
