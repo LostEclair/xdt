@@ -1,7 +1,7 @@
 #ifndef SSE_HH_
 #define SSE_HH_
 
-#include <cpuid.hh>
+#include "cpuid.hh"
 
 namespace xdt {
 namespace sse {

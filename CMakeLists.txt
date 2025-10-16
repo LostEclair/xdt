@@ -4,11 +4,11 @@ project(xdt_lib VERSION 0.1.0 LANGUAGES CXX)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 set(XDT_HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/inc/cpuid.hh
-    ${CMAKE_CURRENT_SOURCE_DIR}/inc/sse.hh
     ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt.hh
-    ${CMAKE_CURRENT_SOURCE_DIR}/inc/vendor.hh
-    ${CMAKE_CURRENT_SOURCE_DIR}/inc/avx.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/cpuid.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/sse.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/vendor.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/avx.hh
 )
 
 set(XDT_SOURCES

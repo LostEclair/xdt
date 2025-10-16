@@ -1,8 +1,9 @@
 #ifndef XDT_HH_
 #define XDT_HH_
 
-#include "cpuid.hh"
-#include "sse.hh"
-#include "vendor.hh"
+#include "xdt/avx.hh"
+#include "xdt/cpuid.hh"
+#include "xdt/sse.hh"
+#include "xdt/vendor.hh"
 
 #endif  // XDT_HH_

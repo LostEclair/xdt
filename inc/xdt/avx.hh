@@ -1,8 +1,8 @@
 #ifndef AVX_HH_
 #define AVX_HH_
 
-#include <cpuid.hh>
 #include <optional>
+#include "cpuid.hh"
 
 namespace xdt {
 namespace avx {
