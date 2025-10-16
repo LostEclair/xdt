@@ -1,22 +1,17 @@
 #ifndef SSE_HH_
 #define SSE_HH_
 
-#include <optional>
+#include <cpuid.hh>
 
 namespace xdt {
 namespace sse {
 
-std::optional<bool> sse();
-
-std::optional<bool> sse2();
-
-std::optional<bool> sse3();
-
-std::optional<bool> ssse3();
-
-std::optional<bool> sse4_1();
-
-std::optional<bool> sse4_2();
+xdt::cpuid::result sse();
+xdt::cpuid::result sse2();
+xdt::cpuid::result sse3();
+xdt::cpuid::result ssse3();
+xdt::cpuid::result sse4_1();
+xdt::cpuid::result sse4_2();
 
 }  // namespace sse
 }  // namespace xdt

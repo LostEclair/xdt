@@ -7,22 +7,22 @@
 namespace xdt {
 namespace vendor {
 
-enum vendors {
-    UNKNOWN, /* 0 */
-    AMD,     /* 1 */
-    CENTAUR, /* 2 */
-    CYRIX,   /* 3 */
-    HYGON,   /* 4 */
-    INTEL,   /* 5 */
-    TM1,     /* 6 */
-    TM2,     /* 7 */
-    NSC,     /* 8 */
-    NEXGEN,  /* 9 */
-    RISE,    /* 10 */
-    SIS,     /* 11 */
-    UMC,     /* 12 */
-    VIA,     /* 13 */
-    VORTEX,  /* 14 */
+enum class vendors {
+    unknown, /* 0 */
+    amd,     /* 1 */
+    centaur, /* 2 */
+    cyrix,   /* 3 */
+    hygon,   /* 4 */
+    intel,   /* 5 */
+    tm1,     /* 6 */
+    tm2,     /* 7 */
+    nsc,     /* 8 */
+    nexgen,  /* 9 */
+    rise,    /* 10 */
+    sis,     /* 11 */
+    umc,     /* 12 */
+    via,     /* 13 */
+    vortex,  /* 14 */
 };
 
 std::optional<std::string> signature();

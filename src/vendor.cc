@@ -1,9 +1,5 @@
-#include <cpuid.hh>
-#include <vendor.hh>
-
-#include <cstdint>
-#include <optional>
 #include <tuple>
+#include <xdt.hh>
 
 static constexpr std::uint32_t AMD_EBX_{0x68747541};
 static constexpr std::uint32_t AMD_EDX_{0x69746e65};
@@ -24,6 +20,10 @@ static constexpr std::uint32_t HYGON_ECX_{0x656e6975};
 static constexpr std::uint32_t INTEL_EBX_{0x756e6547};
 static constexpr std::uint32_t INTEL_EDX_{0x49656e69};
 static constexpr std::uint32_t INTEL_ECX_{0x6c65746e};
+
+static constexpr std::uint32_t INTEL_ALT_EBX_{0x756e6547};
+static constexpr std::uint32_t INTEL_ALT_EDX_{0x49656e69};
+static constexpr std::uint32_t INTEL_ALT_ECX_{0x6c65746f};
 
 static constexpr std::uint32_t TM1_EBX_{0x6e617254};
 static constexpr std::uint32_t TM1_EDX_{0x74656d73};
@@ -71,6 +71,7 @@ get_vendor_signature_() {
     return std::make_tuple(registers->ebx, registers->edx, registers->ecx);
 };
 
+/// Append a little endian hexadecimal value into the std::string object
 static void append_cpuid_string_(std::string& to, const std::uint32_t source) {
     to.push_back(static_cast<char>(source & 0xFF));
     to.push_back(static_cast<char>((source >> 8) & 0xFF));
@@ -114,13 +115,10 @@ std::optional<std::string> xdt::vendor::branding() {
     return branding;
 }
 
-#define EBX 0
-#define EDX 1
-#define ECX 2
 #define MATCH(symbol, result)                                                                      \
     do {                                                                                           \
-        if (std::get<EBX>(*vendor) == symbol##_EBX_ && std::get<EDX>(*vendor) == symbol##_EDX_ &&  \
-            std::get<ECX>(*vendor) == symbol##_ECX_) {                                             \
+        if (std::get<0>(*vendor) == symbol##_EBX_ && std::get<1>(*vendor) == symbol##_EDX_ &&      \
+            std::get<2>(*vendor) == symbol##_ECX_) {                                               \
             return result;                                                                         \
         }                                                                                          \
     } while (0)
@@ -128,23 +126,24 @@ std::optional<std::string> xdt::vendor::branding() {
 xdt::vendor::vendors xdt::vendor::guess_vendor() {
     const auto vendor{get_vendor_signature_()};
     if (!vendor) {
-        return xdt::vendor::UNKNOWN;
+        return xdt::vendor::vendors::unknown;
     }
 
-    MATCH(AMD, xdt::vendor::AMD);
-    MATCH(CENTAUR, xdt::vendor::CENTAUR);
-    MATCH(CYRIX, xdt::vendor::CYRIX);
-    MATCH(HYGON, xdt::vendor::HYGON);
-    MATCH(INTEL, xdt::vendor::INTEL);
-    MATCH(TM1, xdt::vendor::TM1);
-    MATCH(TM2, xdt::vendor::TM2);
-    MATCH(NSC, xdt::vendor::NSC);
-    MATCH(NEXGEN, xdt::vendor::NEXGEN);
-    MATCH(RISE, xdt::vendor::RISE);
-    MATCH(SIS, xdt::vendor::SIS);
-    MATCH(UMC, xdt::vendor::UMC);
-    MATCH(VIA, xdt::vendor::VIA);
-    MATCH(VORTEX, xdt::vendor::VORTEX);
+    MATCH(AMD, xdt::vendor::vendors::amd);
+    MATCH(CENTAUR, xdt::vendor::vendors::centaur);
+    MATCH(CYRIX, xdt::vendor::vendors::cyrix);
+    MATCH(HYGON, xdt::vendor::vendors::hygon);
+    MATCH(INTEL, xdt::vendor::vendors::intel);
+    MATCH(INTEL_ALT, xdt::vendor::vendors::intel);
+    MATCH(TM1, xdt::vendor::vendors::tm1);
+    MATCH(TM2, xdt::vendor::vendors::tm2);
+    MATCH(NSC, xdt::vendor::vendors::nsc);
+    MATCH(NEXGEN, xdt::vendor::vendors::nexgen);
+    MATCH(RISE, xdt::vendor::vendors::rise);
+    MATCH(SIS, xdt::vendor::vendors::sis);
+    MATCH(UMC, xdt::vendor::vendors::umc);
+    MATCH(VIA, xdt::vendor::vendors::via);
+    MATCH(VORTEX, xdt::vendor::vendors::vortex);
 
-    return xdt::vendor::UNKNOWN;
+    return xdt::vendor::vendors::unknown;
 }

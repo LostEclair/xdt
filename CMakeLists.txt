@@ -8,12 +8,14 @@ set(XDT_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/inc/sse.hh
     ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt.hh
     ${CMAKE_CURRENT_SOURCE_DIR}/inc/vendor.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc/avx.hh
 )
 
 set(XDT_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/cpuid.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sse.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/avx.cc
 )
 
 add_library(xdt ${XDT_SOURCES} ${XDT_HEADERS})

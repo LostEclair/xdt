@@ -7,21 +7,28 @@
 namespace xdt {
 namespace cpuid {
 
-enum register_selector { EAX, EBX, ECX, EDX };
+enum class register_selector { eax, ebx, ecx, edx };
 
-struct extended_registers {
+struct registers {
     std::uint32_t eax;
     std::uint32_t ebx;
     std::uint32_t ecx;
     std::uint32_t edx;
 };
 
-std::optional<extended_registers> cpuid(const std::uint32_t leaf, const std::uint32_t subleaf);
+/// false        -> Not supported
+/// true         -> Supported
+/// std::nullopt -> N/A (CPUID/Leaf is not supported)
+using result = std::optional<bool>;
 
-std::optional<bool> has_field(const std::uint32_t     leaf,
-                              const std::uint32_t     subleaf,
-                              const register_selector selection,
-                              const std::uint32_t     mask);
+using raw_result = std::optional<registers>;
+
+raw_result cpuid(const std::uint32_t leaf, const std::uint32_t subleaf);
+
+result has_field(const std::uint32_t     leaf,
+                 const std::uint32_t     subleaf,
+                 const register_selector selection,
+                 const std::uint32_t     mask);
 
 }  // namespace cpuid
 }  // namespace xdt
