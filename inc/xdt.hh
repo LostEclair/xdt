@@ -3,6 +3,7 @@
 
 #include "xdt/avx.hh"
 #include "xdt/cpuid.hh"
+#include "xdt/intel.hh"
 #include "xdt/sse.hh"
 #include "xdt/vendor.hh"
 

@@ -8,3 +8,4 @@ AlignEscapedNewlines: Right
 AlignOperands: true
 AlignTrailingComments: true
 ColumnLimit: 100
+AlignEscapedNewlines: Left

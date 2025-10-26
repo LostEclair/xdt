@@ -5,17 +5,19 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 set(XDT_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/avx.hh
     ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/cpuid.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/intel.hh
     ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/sse.hh
     ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/vendor.hh
-    ${CMAKE_CURRENT_SOURCE_DIR}/inc/xdt/avx.hh
 )
 
 set(XDT_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/avx.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/cpuid.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/intel.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sse.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/vendor.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/avx.cc
 )
 
 add_library(xdt ${XDT_SOURCES} ${XDT_HEADERS})
@@ -42,7 +44,12 @@ install(TARGETS xdt
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
-install(FILES ${XDT_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/inc/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    COMPONENT headers
+    FILES_MATCHING PATTERN "*.hh"
+)
 
 install(EXPORT xdtTargets
     FILE xdtTargets.cmake
